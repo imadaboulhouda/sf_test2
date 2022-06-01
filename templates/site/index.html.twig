@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SiteController!{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="card">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+
+{% for x in categories %}
+             <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>Action</th>
+            </tr>
+{% endfor %}
+
+            </tbody>
+        </table>
+    
+    </div>
+</div>
+{% endblock %}
