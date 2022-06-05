@@ -20,6 +20,10 @@ class ProductController extends AbstractController
      */
     public function index(ProductRepository $productRepository): Response
     {
+        if(!$this->getUser())
+        {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),
         ]);
@@ -30,11 +34,27 @@ class ProductController extends AbstractController
      */
     public function new(Request $request, ProductRepository $productRepository): Response
     {
+         if(!$this->getUser())
+        {
+            return $this->redirectToRoute('app_login');
+        }
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $request->files->get('product')['image'];
+                      
+
+            if($file->getError() === 0) 
+            {
+                $ext = $file->guessExtension();
+                $name  = rand(1,1000)."_".time().".".$ext;
+
+                $product->setImage($name);
+                $file->move($this->getParameter('uploadImage'),$name);
+            }
+            
             $productRepository->add($product, true);
 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
@@ -51,6 +71,10 @@ class ProductController extends AbstractController
      */
     public function show(Product $product): Response
     {
+         if(!$this->getUser())
+        {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('product/show.html.twig', [
             'product' => $product,
         ]);
@@ -61,6 +85,10 @@ class ProductController extends AbstractController
      */
     public function edit(Request $request, Product $product, ProductRepository $productRepository): Response
     {
+         if(!$this->getUser())
+        {
+            return $this->redirectToRoute('app_login');
+        }
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
@@ -81,6 +109,10 @@ class ProductController extends AbstractController
      */
     public function delete(Request $request, Product $product, ProductRepository $productRepository): Response
     {
+         if(!$this->getUser())
+        {
+            return $this->redirectToRoute('app_login');
+        }
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $productRepository->remove($product, true);
         }

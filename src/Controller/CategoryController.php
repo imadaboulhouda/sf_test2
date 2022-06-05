@@ -20,6 +20,10 @@ class CategoryController extends AbstractController
      */
     public function index(CategoryRepository $categoryRepository): Response
     {
+         if(!$this->getUser())
+        {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('category/index.html.twig', [
             'categories' => $categoryRepository->findAll(),
         ]);
@@ -30,6 +34,10 @@ class CategoryController extends AbstractController
      */
     public function new(Request $request, CategoryRepository $categoryRepository): Response
     {
+         if(!$this->getUser())
+        {
+            return $this->redirectToRoute('app_login');
+        }
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
@@ -51,6 +59,10 @@ class CategoryController extends AbstractController
      */
     public function show(Category $category): Response
     {
+         if(!$this->getUser())
+        {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('category/show.html.twig', [
             'category' => $category,
         ]);
@@ -61,6 +73,10 @@ class CategoryController extends AbstractController
      */
     public function edit(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
+         if(!$this->getUser())
+        {
+            return $this->redirectToRoute('app_login');
+        }
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
@@ -81,6 +97,10 @@ class CategoryController extends AbstractController
      */
     public function delete(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
+         if(!$this->getUser())
+        {
+            return $this->redirectToRoute('app_login');
+        }
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $categoryRepository->remove($category, true);
         }

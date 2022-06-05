@@ -42,6 +42,7 @@ class Category
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->user = $this->getUser();
     }
 
     public function getId(): ?int
