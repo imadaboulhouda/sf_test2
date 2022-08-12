@@ -11,7 +11,7 @@ class SiteController extends AbstractController
 {
 
     private $categorieRepo;
-    
+
     function __construct(CategoryRepository $categorieRepo)
     {
         $this->categorieRepo = $categorieRepo;
@@ -24,8 +24,8 @@ class SiteController extends AbstractController
 
         $categories = $this->categorieRepo->findAll();
         return $this->render('site/index.html.twig', [
-            
-            'categories'=>$categories
+
+            'categories' => $categories
         ]);
     }
 }

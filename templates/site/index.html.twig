@@ -10,16 +10,17 @@
             <tr>
                 <th>ID</th>
                 <th>NAME</th>
-                <th>Action</th>
+                <th>Created at</th>
             </tr>
             </thead>
             <tbody>
 
 {% for x in categories %}
              <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>Action</th>
+                <th>{{ x.id }}</th>
+                <th>{{ x.name }}</th>
+                <th>{{ x.createdAt | date('Y-m-d')}}</th>
+                <th><a href="{{ path('app_category_edit',{id:x.id}) }}">Edit</a></th>
             </tr>
 {% endfor %}
 
